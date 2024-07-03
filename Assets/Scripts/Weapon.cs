@@ -34,6 +34,14 @@ public class Weapon : MonoBehaviour
     public int magazineSize;
     public int bulletsLeft;
     public bool isReloading;
+
+    public enum WeaponModel
+    {
+        Pistol1911,
+        M16
+    }
+    
+    public WeaponModel thisWeaponModel;
     
     public enum ShootingMode
     {
@@ -57,6 +65,7 @@ public class Weapon : MonoBehaviour
     {
         if (bulletsLeft == 0 && isShooting)
         {
+            // 現状はどの武器でも空の音は同じなのでハードコード
             SoundManager.Instance.emptyMagazineSound1911.Play();
         }
         
@@ -102,7 +111,8 @@ public class Weapon : MonoBehaviour
         muzzleEffect.GetComponent<ParticleSystem>().Play();
         animator.SetTrigger("RECOIL");
         
-        SoundManager.Instance.shootingSound1911.Play();
+        // SoundManager.Instance.shootingSound1911.Play();
+        SoundManager.Instance.PlayShootingSound(thisWeaponModel);
         
         readyToShoot = false;
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
@@ -134,7 +144,11 @@ public class Weapon : MonoBehaviour
     private void Reload()
     {
         // 現状は直接 1911 の音を鳴らしている
-        SoundManager.Instance.reloadingSound1911.Play();
+        // SoundManager.Instance.reloadingSound1911.Play();
+        SoundManager.Instance.PlayReloadSound(thisWeaponModel);
+        
+        // Trigger 呼び出しなのでリロードアニメーションの有り無しは関係無い
+        animator.SetTrigger("RELOAD");
         
         isReloading = true;
         Invoke(nameof(ReloadCompleted), reloadTime);
