@@ -1,4 +1,6 @@
 using System.Collections;
+using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -10,7 +12,8 @@ public class Weapon : MonoBehaviour
     public float shootingDelay = 2f;
 
     // Burst
-    public int bulletPerBurst = 3;
+    [Min(1)] // 単発射撃の武器でも 1 は必ず指定
+    public int bulletPerBurst = 1;
     public int burstBulletsLeft;
 
     // Spread
@@ -24,6 +27,13 @@ public class Weapon : MonoBehaviour
 
     public GameObject muzzleEffect;
     public Animator animator;
+    
+    // Loading
+    [Header("リロード時間 (アニメーションの長さに依存する")] 
+    public float reloadTime;
+    public int magazineSize;
+    public int bulletsLeft;
+    public bool isReloading;
     
     public enum ShootingMode
     {
@@ -39,10 +49,17 @@ public class Weapon : MonoBehaviour
         readyToShoot = true;
         burstBulletsLeft = bulletPerBurst;
         animator = GetComponent<Animator>();
+        
+        bulletsLeft = magazineSize;
     }
 
     void Update()
     {
+        if (bulletsLeft == 0 && isShooting)
+        {
+            SoundManager.Instance.emptyMagazineSound1911.Play();
+        }
+        
         if (currentShootingMode == ShootingMode.Auto)
         {
             // Hold down the mouse button to shoot
@@ -53,16 +70,35 @@ public class Weapon : MonoBehaviour
             // Press the mouse button to shoot
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
+        
+        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !isReloading)
+        {
+            Reload();
+        }
+        
+        // 自動リロードの場合
+        if (readyToShoot && !isShooting && bulletsLeft <= 0 && !isReloading)
+        {
+            Reload();
+        }
 
-        if (readyToShoot && isShooting)
+        if (readyToShoot && isShooting && bulletsLeft > 0)
         {
             burstBulletsLeft = bulletPerBurst;
             FireWeapon();
+        }
+        
+        if (AmmoManager.Instance.ammoDisplay != null)
+        {
+            // バーストあたりの弾数を表示
+            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft/bulletPerBurst}/{magazineSize/bulletPerBurst}";
         }
     }
 
     private void FireWeapon()
     {
+        bulletsLeft--;
+        
         muzzleEffect.GetComponent<ParticleSystem>().Play();
         animator.SetTrigger("RECOIL");
         
@@ -93,6 +129,21 @@ public class Weapon : MonoBehaviour
             burstBulletsLeft--;
             Invoke(nameof(FireWeapon) , 0.1f);
         }
+    }
+
+    private void Reload()
+    {
+        // 現状は直接 1911 の音を鳴らしている
+        SoundManager.Instance.reloadingSound1911.Play();
+        
+        isReloading = true;
+        Invoke(nameof(ReloadCompleted), reloadTime);
+    }
+
+    private void ReloadCompleted()
+    {
+        bulletsLeft = magazineSize;
+        isReloading = false;
     }
 
     private void ResetShot()
