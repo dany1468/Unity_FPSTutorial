@@ -1,10 +1,10 @@
 using System.Collections;
-using System.ComponentModel;
-using TMPro;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public bool isActiveWeapon;
+    
     // Shooting
     public bool isShooting;
     public bool readyToShoot;
@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour
     public float bulletPrefabLifeTime = 3f; // 3秒後に弾が消える
 
     public GameObject muzzleEffect;
-    public Animator animator;
+    internal Animator animator;
     
     // Loading
     [Header("リロード時間 (アニメーションの長さに依存する")] 
@@ -34,6 +34,9 @@ public class Weapon : MonoBehaviour
     public int magazineSize;
     public int bulletsLeft;
     public bool isReloading;
+
+    public Vector3 spawnPosition;
+    public Vector3 spawnRotation;
 
     public enum WeaponModel
     {
@@ -63,44 +66,50 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        if (bulletsLeft == 0 && isShooting)
+        if (isActiveWeapon)
         {
-            // 現状はどの武器でも空の音は同じなのでハードコード
-            SoundManager.Instance.emptyMagazineSound1911.Play();
-        }
+            // まれに発生する不具合のための措置
+            GetComponent<Outline>().enabled = false;
+            
+            if (bulletsLeft == 0 && isShooting)
+            {
+                // 現状はどの武器でも空の音は同じなのでハードコード
+                SoundManager.Instance.emptyMagazineSound1911.Play();
+            }
         
-        if (currentShootingMode == ShootingMode.Auto)
-        {
-            // Hold down the mouse button to shoot
-            isShooting = Input.GetKey(KeyCode.Mouse0);
-        }
-        else if (currentShootingMode is ShootingMode.Single or ShootingMode.Burst)
-        {
-            // Press the mouse button to shoot
-            isShooting = Input.GetKeyDown(KeyCode.Mouse0);
-        }
+            if (currentShootingMode == ShootingMode.Auto)
+            {
+                // Hold down the mouse button to shoot
+                isShooting = Input.GetKey(KeyCode.Mouse0);
+            }
+            else if (currentShootingMode is ShootingMode.Single or ShootingMode.Burst)
+            {
+                // Press the mouse button to shoot
+                isShooting = Input.GetKeyDown(KeyCode.Mouse0);
+            }
         
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !isReloading)
-        {
-            Reload();
-        }
+            if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !isReloading)
+            {
+                Reload();
+            }
         
-        // 自動リロードの場合
-        if (readyToShoot && !isShooting && bulletsLeft <= 0 && !isReloading)
-        {
-            Reload();
-        }
+            // 自動リロードの場合
+            if (readyToShoot && !isShooting && bulletsLeft <= 0 && !isReloading)
+            {
+                Reload();
+            }
 
-        if (readyToShoot && isShooting && bulletsLeft > 0)
-        {
-            burstBulletsLeft = bulletPerBurst;
-            FireWeapon();
-        }
+            if (readyToShoot && isShooting && bulletsLeft > 0)
+            {
+                burstBulletsLeft = bulletPerBurst;
+                FireWeapon();
+            }
         
-        if (AmmoManager.Instance.ammoDisplay != null)
-        {
-            // バーストあたりの弾数を表示
-            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft/bulletPerBurst}/{magazineSize/bulletPerBurst}";
+            if (AmmoManager.Instance.ammoDisplay != null)
+            {
+                // バーストあたりの弾数を表示
+                AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft/bulletPerBurst}/{magazineSize/bulletPerBurst}";
+            }
         }
     }
 
