@@ -11,6 +11,9 @@ public class WeaponManager : MonoBehaviour
 
     public GameObject activeWeaponSlot;
 
+    [Header("Ammo")] public int totalRifleAmmo;
+    public int totalPistolAmmo;
+
     private void Awake()
     {
         if (Instance == null)
@@ -100,6 +103,50 @@ public class WeaponManager : MonoBehaviour
             var weaponToPickup = activeWeaponSlot.transform.GetChild(0).gameObject;
 
             weaponToPickup.GetComponent<Weapon>().isActiveWeapon = true;
+        }
+    }
+
+    public void PickupAmmo(AmmoBox ammoBox)
+    {
+        switch (ammoBox.ammoType)
+        {
+            case AmmoBox.AmmoType.RifleAmmo:
+                totalRifleAmmo += ammoBox.ammoAmount;
+                break;
+            case AmmoBox.AmmoType.PistolAmmo:
+                totalPistolAmmo += ammoBox.ammoAmount;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public void DecreaseTotalAmmo(int bulletsToDecrease, Weapon.WeaponModel thisWeaponModel)
+    {
+        switch (thisWeaponModel)
+        {
+            case Weapon.WeaponModel.Pistol1911:
+                totalPistolAmmo -= bulletsToDecrease;
+                break;
+            case Weapon.WeaponModel.M16:
+                totalRifleAmmo -= bulletsToDecrease;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(thisWeaponModel), thisWeaponModel, null);
+        }
+        
+    }
+    
+    public int CheckAmmoLeftFor(Weapon.WeaponModel weaponModel)
+    {
+        switch (weaponModel)
+        {
+            case Weapon.WeaponModel.Pistol1911:
+                return WeaponManager.Instance.totalPistolAmmo;
+            case Weapon.WeaponModel.M16:
+                return WeaponManager.Instance.totalRifleAmmo;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(weaponModel), weaponModel, null);
         }
     }
 }
