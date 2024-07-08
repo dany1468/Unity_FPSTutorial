@@ -104,12 +104,6 @@ public class Weapon : MonoBehaviour
                 burstBulletsLeft = bulletPerBurst;
                 FireWeapon();
             }
-        
-            if (AmmoManager.Instance.ammoDisplay != null)
-            {
-                // バーストあたりの弾数を表示
-                AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft/bulletPerBurst}/{magazineSize/bulletPerBurst}";
-            }
         }
     }
 

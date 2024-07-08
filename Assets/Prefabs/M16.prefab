@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5909959505148452383}
   - component: {fileID: 7571002032441317131}
   - component: {fileID: 2359678678987378863}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleFlashEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4792,7 +4792,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7487292047819086574}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4826,7 +4826,7 @@ GameObject:
   - component: {fileID: 4923139091109206700}
   - component: {fileID: 3780517786648111123}
   - component: {fileID: 5526328673488664486}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4909,7 +4909,7 @@ GameObject:
   - component: {fileID: 6111213455543356994}
   - component: {fileID: 5706463184335551150}
   - component: {fileID: 2119125994349995500}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4996,7 +4996,7 @@ GameObject:
   - component: {fileID: 5626559111629229488}
   - component: {fileID: 2147639354363567061}
   - component: {fileID: 6734923197898665673}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: M16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5178,7 +5178,7 @@ GameObject:
   - component: {fileID: 5291443108968677799}
   - component: {fileID: 2248208140158571347}
   - component: {fileID: 7584228868744067599}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5261,7 +5261,7 @@ GameObject:
   - component: {fileID: 4611966657071291028}
   - component: {fileID: 3399343498487416234}
   - component: {fileID: 531059291643339609}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rear_Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5344,7 +5344,7 @@ GameObject:
   - component: {fileID: 7896473979651076464}
   - component: {fileID: 1294076184117774445}
   - component: {fileID: 2322970202141769809}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}

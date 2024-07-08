@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4991505668350154514}
   - component: {fileID: 1745773832701749639}
   - component: {fileID: 4943988359975032701}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 1911
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 8066811895008051011}
   - component: {fileID: 5269733038307741651}
   - component: {fileID: 5073328255536830722}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: M1911
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 6008599713990909452}
   - component: {fileID: 5858458605106724187}
   - component: {fileID: 2106749846519595271}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleFlashEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5012,7 +5012,7 @@ GameObject:
   - component: {fileID: 8471995333928638583}
   - component: {fileID: 1528683024344716640}
   - component: {fileID: 7050917223149623671}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5093,7 +5093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4627573171991354074}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CINEMA_4D_Editor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5126,7 +5126,7 @@ GameObject:
   - component: {fileID: 162764731890134903}
   - component: {fileID: 5118627668636838235}
   - component: {fileID: 2795320476506883280}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5207,7 +5207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2775443473723878438}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5241,7 +5241,7 @@ GameObject:
   - component: {fileID: 5802708918575702970}
   - component: {fileID: 4733045256552064108}
   - component: {fileID: 7793240292964661004}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Magazin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5324,7 +5324,7 @@ GameObject:
   - component: {fileID: 915511919354176544}
   - component: {fileID: 7736788445053312735}
   - component: {fileID: 5857610473377962845}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
