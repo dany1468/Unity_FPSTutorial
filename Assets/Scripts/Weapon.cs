@@ -6,23 +6,33 @@ public class Weapon : MonoBehaviour
 {
     public bool isActiveWeapon;
 
+    [Header("Shooting")]
     // Shooting
     public bool isShooting;
+
     public bool readyToShoot;
     private bool allowReset = true;
     public float shootingDelay = 2f;
 
+    [Header("Burst")]
     // Burst
-    [Min(1)] // 単発射撃の武器でも 1 は必ず指定
+    [Min(1)]
+    // 単発射撃の武器でも 1 は必ず指定
     public int bulletPerBurst = 1;
 
     public int burstBulletsLeft;
 
+    [Header("Spread")]
     // Spread
     public float spreadIntensity;
 
+    public float hipSpreadIntensity; // 腰だめ射撃
+    public float adsSpreadIntensity; // ADS (Aim Down Sight) 射撃
+
+    [Header("Bullet")]
     // Bullet
     public GameObject bulletPrefab;
+
     public Transform bulletSpawn;
     public float bulletVelocity = 30;
     public float bulletPrefabLifeTime = 3f; // 3秒後に弾が消える
@@ -38,6 +48,8 @@ public class Weapon : MonoBehaviour
 
     public Vector3 spawnPosition;
     public Vector3 spawnRotation;
+
+    public bool isADS;
 
     public enum WeaponModel
     {
@@ -63,12 +75,25 @@ public class Weapon : MonoBehaviour
         animator = GetComponent<Animator>();
 
         bulletsLeft = magazineSize;
+
+        spreadIntensity = hipSpreadIntensity;
     }
 
     void Update()
     {
         if (isActiveWeapon)
         {
+            // このトリガーは各武器の Animator で全て同じ名前にする必要がある
+            if (Input.GetMouseButtonDown(1))
+            {
+                EnterADS();
+            }
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                ExitADS();
+            }
+
             // まれに発生する不具合のための措置
             GetComponent<Outline>().enabled = false;
 
@@ -109,13 +134,37 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    private void EnterADS()
+    {
+        animator.SetTrigger("enterADS");
+        isADS = true;
+        HUDManager.Instance.middleDot.SetActive(false);
+        spreadIntensity = adsSpreadIntensity;
+    }
+
+    private void ExitADS()
+    {
+        animator.SetTrigger("exitADS");
+        isADS = false;
+        HUDManager.Instance.middleDot.SetActive(true);
+        spreadIntensity = hipSpreadIntensity;
+    }
 
     private void FireWeapon()
     {
         bulletsLeft--;
 
         muzzleEffect.GetComponent<ParticleSystem>().Play();
-        animator.SetTrigger("RECOIL");
+
+        // このトリガーは各武器の Animator で全て同じ名前にする必要がある
+        if (isADS)
+        {
+            animator.SetTrigger("RECOIL_ADS");
+        }
+        else
+        {
+            animator.SetTrigger("RECOIL");
+        }
 
         // SoundManager.Instance.shootingSound1911.Play();
         SoundManager.Instance.PlayShootingSound(thisWeaponModel);
@@ -201,11 +250,11 @@ public class Weapon : MonoBehaviour
 
         Vector3 direction = targetPoint - bulletSpawn.position;
 
-        float x = UnityEngine.Random.Range(-spreadIntensity, spreadIntensity);
+        float z = UnityEngine.Random.Range(-spreadIntensity, spreadIntensity);
         float y = UnityEngine.Random.Range(-spreadIntensity, spreadIntensity);
 
         // Returning the shooting direction and spread
-        return direction + new Vector3(x, y, 0);
+        return direction + new Vector3(0, y, z);
     }
 
     private IEnumerator DestroyBulletAfterTime(GameObject bullet, float delay)

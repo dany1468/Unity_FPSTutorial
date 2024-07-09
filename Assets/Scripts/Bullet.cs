@@ -7,8 +7,6 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Target"))
         {
-            print("Hit " + collision.gameObject.name);
-            
             CreateBulletImpactEffect(collision);
             
             Destroy(gameObject);
@@ -16,8 +14,6 @@ public class Bullet : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Wall"))
         {
-            print("Hit a wall ");
-            
             CreateBulletImpactEffect(collision);
             
             Destroy(gameObject);
@@ -25,8 +21,6 @@ public class Bullet : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Beer"))
         {
-            print("Hit a Beer");
-            
             collision.gameObject.GetComponent<DestructibleObject>().Break();
         }
     }

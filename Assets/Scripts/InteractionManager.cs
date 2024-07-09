@@ -25,7 +25,6 @@ public class InteractionManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log("Hit: " + hit.transform.name);
             GameObject objectHitByRaycast = hit.transform.gameObject;
 
             if (objectHitByRaycast.GetComponent<Weapon>()
